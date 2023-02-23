@@ -1,17 +1,21 @@
 const SignupModel = require('../model/signup_model.js');
 const {verifyToken} = require('../other/jwtToken.js')
 
-module.exports.myInvites=async (req,res)=>{
+module.exports.myRewards=async (req,res)=>{
     try{
         const {authorization}=req.headers
         let jwt=await verifyToken(authorization)
-        console.log('inside myinvites',jwt)
+        console.log('inside myRewards',jwt)
         SignupModel.findById(jwt.id,(err,data)=>{
             if(err) throw err
             console.log(data.myInvites)
             let referral=data.myInvites
+            let amount=data.myInvites.reduce((acc,res)=>{
+                acc=acc+res.amount
+                return acc
+            },0)
             res.status(200).json({
-                count:data.myInvites.length,
+                totalAmount:amount,
                 referral
             })
         })
