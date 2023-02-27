@@ -24,10 +24,10 @@ module.exports.signUp=async (req,res) => {
                 console.log('inside signup if refcode found',SignupModel_ref)
                 let referrad_signup=await SignupModel_ref.save()
                 if(refCode_exits['myInvites']){
-                    refCode_exits['myInvites'].push({userName:SignupModel_ref.name,userId:refCode_exits.id,amount:50})
+                    refCode_exits['myInvites'].push({userName:SignupModel_ref.name,userId:SignupModel_ref.id,amount:50})
                 }
                 else{
-                    refCode_exits['myInvites']={userName:SignupModel_ref.name,userId:refCode_exits.id,amount:50}
+                    refCode_exits['myInvites']={userName:SignupModel_ref.name,userId:SignupModel_ref.id,amount:50}
                 }
                 refCode_exits['points']=30
                 await SignupModel.findByIdAndUpdate(refCode_exits.id,refCode_exits)
